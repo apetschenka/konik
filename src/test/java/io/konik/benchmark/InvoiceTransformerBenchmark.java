@@ -3,16 +3,18 @@
  *
  * This file is part of Konik library.
  *
- * Konik library is free software: you can redistribute it and/or modify it under the terms of the
- * GNU Affero General Public License as published by the Free Software Foundation, either version 3
- * of the License, or (at your option) any later version.
+ * Konik library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * Konik library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Konik library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License along with Konik
- * library. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Konik library.  If not, see <http://www.gnu.org/licenses/>.
  */
 package io.konik.benchmark;
 
@@ -21,6 +23,14 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openjdk.jmh.annotations.Mode.Throughput;
 import static org.openjdk.jmh.annotations.Scope.Thread;
+import io.konik.InvoiceTransformer;
+import io.konik.PdfHandler;
+import io.konik.carriage.pdfbox.PDFBoxInvoiceAppender;
+import io.konik.harness.FileAppender;
+import io.konik.harness.appender.DefaultAppendParameter;
+import io.konik.utils.InvoiceLoaderUtils;
+import io.konik.zugferd.Invoice;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,13 +49,6 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.runner.RunnerException;
 import com.google.common.io.Files;
-import io.konik.InvoiceTransformer;
-import io.konik.PdfHandler;
-import io.konik.carriage.pdfbox.PDFBoxInvoiceAppender;
-import io.konik.harness.FileAppender;
-import io.konik.harness.appender.DefaultAppendParameter;
-import io.konik.utils.InvoiceLoaderUtils;
-import io.konik.zugferd.Invoice;
 
 @State(Thread)
 @BenchmarkMode(Throughput)
@@ -63,8 +66,7 @@ public class InvoiceTransformerBenchmark extends DefaultBenchmark {
 
   @Setup
   public void setup() throws IOException {
-    InputStream is =
-        getClass().getResourceAsStream(InvoiceLoaderUtils.ZF_MUSTERRECHNUNG_EINFACH_XML);
+      InputStream is = getClass().getResourceAsStream(InvoiceLoaderUtils.ZF_MUSTERRECHNUNG_EINFACH_XML);
     invoice = toByteArray(is);
     invoiceModel = transformer.toModel(new ByteArrayInputStream(invoice));
     assertThat(invoice).isNotNull();
@@ -78,15 +80,13 @@ public class InvoiceTransformerBenchmark extends DefaultBenchmark {
 
   // @Benchmark
   public void fromModelAsync() throws Exception {
-    transformer.fromModelAsync(invoiceModel,
-        new FileOutputStream(new File(tempDir, System.currentTimeMillis() + ".xml")));
+      transformer.fromModelAsync(invoiceModel,new FileOutputStream(new File(tempDir,System.currentTimeMillis()+".xml")));
   }
 
   // @Benchmark
   @Threads(4)
   public void fromModelAsyncThreads() throws Exception {
-    transformer.fromModelAsync(invoiceModel,
-        new FileOutputStream(new File(tempDir, System.currentTimeMillis() + ".xml")));
+      transformer.fromModelAsync(invoiceModel,new FileOutputStream(new File(tempDir,System.currentTimeMillis()+".xml")));
   }
 
   @Benchmark
@@ -97,8 +97,7 @@ public class InvoiceTransformerBenchmark extends DefaultBenchmark {
     InputStream pdfIn = getClass().getResourceAsStream("/acme_invoice-42.pdf");
 
     transformer.fromModelAsync(invoiceModel, out);
-    appender
-        .append(new DefaultAppendParameter(pdfIn, in, new ByteArrayOutputStream(), "1.0", "TEST"));
+      appender.append(new DefaultAppendParameter(pdfIn, in, new ByteArrayOutputStream(), "1.0", "TEST"));
   }
 
   @Benchmark

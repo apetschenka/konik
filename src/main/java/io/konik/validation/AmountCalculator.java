@@ -1,18 +1,19 @@
-/*
- * Copyright (C) 2014 konik.io
+/* Copyright (C) 2014 konik.io
  *
  * This file is part of the Konik library.
  *
- * The Konik library is free software: you can redistribute it and/or modify it under the terms of
- * the GNU Affero General Public License as published by the Free Software Foundation, either
- * version 3 of the License, or (at your option) any later version.
+ * The Konik library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- * The Konik library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * The Konik library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License along with the Konik
- * library. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with the Konik library. If not, see <http://www.gnu.org/licenses/>.
  */
 package io.konik.validation;
 
@@ -163,7 +164,7 @@ public final class AmountCalculator {
   }
 
   private static void appendTaxFromInvoiceServiceCharge(Settlement settlement,
-      TaxAggregator taxAggregator) {
+    TaxAggregator taxAggregator) {
     LOG.debug("Adding tax amounts from invoice service charge...");
     if (settlement.getServiceCharge() != null) {
       for (LogisticsServiceCharge charge : settlement.getServiceCharge()) {
@@ -181,11 +182,11 @@ public final class AmountCalculator {
   }
 
   private static void appendTaxFromInvoiceAllowanceCharge(Settlement settlement,
-      TaxAggregator taxAggregator) {
+    TaxAggregator taxAggregator) {
     LOG.debug("Adding tax amounts from invoice allowance charge...");
     if (settlement.getAllowanceCharge() != null) {
       for (SpecifiedAllowanceCharge charge : settlement.getAllowanceCharge()) {
-        if (charge.getCategory() != null && charge.getActual() != null) {
+        if (charge.getCategory() != null) {
           BigDecimal amount = charge.getActual().getValue();
           if (charge.isDiscount()) {
             amount = amount.negate();
@@ -215,19 +216,16 @@ public final class AmountCalculator {
     assertNotNull(item);
 
     SpecifiedAgreement agreement = item.getAgreement();
-    if (agreement != null && agreement.getGrossPrice() != null
-        && agreement.getGrossPrice().getChargeAmount() != null) {
+    if (agreement != null && agreement.getGrossPrice() != null) {
       return agreement.getGrossPrice().getChargeAmount().getCurrency();
     }
 
-    if (agreement != null && agreement.getNetPrice() != null
-        && agreement.getNetPrice().getChargeAmount() != null) {
+    if (agreement != null && agreement.getNetPrice() != null) {
       return agreement.getNetPrice().getChargeAmount().getCurrency();
     }
 
     SpecifiedSettlement settlement = item.getSettlement();
-    if (settlement != null && settlement.getMonetarySummation() != null
-        && settlement.getMonetarySummation().getLineTotal() != null) {
+    if (settlement != null && settlement.getMonetarySummation() != null) {
       return settlement.getMonetarySummation().getLineTotal().getCurrency();
     }
 
@@ -236,7 +234,7 @@ public final class AmountCalculator {
 
 
   private static void assertNotNull(final Invoice invoice) {
-    if (invoice == null || invoice.getTrade() == null) {
+    if (invoice == null) {
       throw new IllegalArgumentException("Invoice and Trade objects cannot be null");
     }
   }
