@@ -18,13 +18,14 @@
 
 package io.konik.zugferd.entity;
 
-import static java.util.Collections.addAll;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Collections.addAll;
 
 /**
  * = The Consignment.

@@ -17,13 +17,15 @@
  */
 package io.konik.zugferd.profile;
 
-import static io.konik.util.Strings.isNullOrEmpty;
-import java.lang.annotation.Annotation;
-import java.util.Arrays;
-import java.util.List;
 import io.konik.validator.annotation.Basic;
 import io.konik.validator.annotation.Comfort;
 import io.konik.validator.annotation.Extended;
+
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.List;
+
+import static io.konik.util.Strings.isNullOrEmpty;
 
 /**
  * The latest Version Invoice Profiles.

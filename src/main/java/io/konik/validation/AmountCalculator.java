@@ -47,27 +47,24 @@ public final class AmountCalculator {
   protected static final Logger LOG = LoggerFactory.getLogger(AmountCalculator.class);
 
   /**
-   * Calculates {@link MonetarySummation} for given {@link Invoice} basing on line {@link Item}s and
-   * global {@link io.konik.zugferd.entity.AllowanceCharge} and {@link LogisticsServiceCharge}
-   *
-   * @param invoice
-   * @return
-   */
-  public static RecalculationResult recalculate(final Invoice invoice) {
-    assertNotNull(invoice);
+	 * Calculates {@link MonetarySummation} for given {@link Invoice} basing on line {@link Item}s
+	 * and global {@link io.konik.zugferd.entity.AllowanceCharge} and {@link LogisticsServiceCharge}
+	 *
+	 * @param invoice
+	 * @return
+	 */
+	public static RecalculationResult recalculate(final Invoice invoice) {
+		assertNotNull(invoice);
 
-    CurrencyCode currency = getCurrency(invoice);
-    List<Item> items = Items.purchasableItemsOnly(invoice.getTrade().getItems());
-    Settlement settlement = invoice.getTrade().getSettlement();
+		CurrencyCode currency = getCurrency(invoice);
+		List<Item> items = Items.purchasableItemsOnly(invoice.getTrade().getItems());
+		Settlement settlement = invoice.getTrade().getSettlement();
 
-    TaxAggregator taxAggregator = new TaxAggregator();
+		TaxAggregator taxAggregator = new TaxAggregator();
 
-    // If there are no items that can be used to recalculate monetary summation, return the current
-    // one
-    if (items.isEmpty()) {
-      return new RecalculationResult(
-          MonetarySummations.newMonetarySummation(settlement.getMonetarySummation()),
-          taxAggregator);
+		// If there are no items that can be used to recalculate monetary summation, return the current one
+		if (items.isEmpty()) {
+			return new RecalculationResult(MonetarySummations.newMonetarySummation(settlement.getMonetarySummation()), taxAggregator);
     }
 
     MonetarySummation monetarySummation = MonetarySummations.newMonetarySummation(currency);
@@ -91,7 +88,10 @@ public final class AmountCalculator {
         taxAggregator.add(tax, lineTotal != null ? lineTotal.getValue() : BigDecimal.ZERO);
       }
 
-      monetarySummation.setLineTotal(Amounts.add(monetarySummation.getLineTotal(), lineTotal));
+			monetarySummation.setLineTotal(Amounts.add(
+					monetarySummation.getLineTotal(),
+					lineTotal
+			));
 
       LOG.debug("Current monetarySummation.lineTotal = {} (the sum of all line totals)",
           monetarySummation.getLineTotal());
@@ -108,22 +108,25 @@ public final class AmountCalculator {
         .setTaxBasisTotal(new Amount(taxAggregator.calculateTaxBasis(items), currency));
     monetarySummation.setTaxTotal(new Amount(taxAggregator.calculateTaxTotal(), currency));
 
-    monetarySummation.setGrandTotal(
-        Amounts.add(monetarySummation.getTaxBasisTotal(), monetarySummation.getTaxTotal()));
+		monetarySummation.setGrandTotal(Amounts.add(
+				monetarySummation.getTaxBasisTotal(),
+				monetarySummation.getTaxTotal()
+		));
 
     LOG.debug("Recalculated grand total = {} (tax basis total + tax total)",
         monetarySummation.getGrandTotal());
 
-    if (settlement.getMonetarySummation() != null
-        && settlement.getMonetarySummation().getTotalPrepaid() != null) {
-      monetarySummation.setTotalPrepaid(settlement.getMonetarySummation().getTotalPrepaid());
-    }
+		if (settlement.getMonetarySummation() != null && settlement.getMonetarySummation().getTotalPrepaid() != null) {
+			monetarySummation.setTotalPrepaid(
+					settlement.getMonetarySummation().getTotalPrepaid()
+			);
+		}
 
-    monetarySummation.setDuePayable(Amounts.add(monetarySummation.getGrandTotal(),
-        Amounts.negate(monetarySummation.getTotalPrepaid())));
+		monetarySummation.setDuePayable(
+				Amounts.add(monetarySummation.getGrandTotal(), Amounts.negate(monetarySummation.getTotalPrepaid()))
+		);
 
-    MonetarySummation result =
-        MonetarySummations.precise(monetarySummation, 2, RoundingMode.HALF_UP);
+		MonetarySummation result = MonetarySummations.precise(monetarySummation, 2, RoundingMode.HALF_UP);
 
     LOG.debug("Recalculating invoice monetary summation DONE!");
     LOG.debug(" ==> result: {}", result);
@@ -138,17 +141,14 @@ public final class AmountCalculator {
    * @return
    */
   public static SpecifiedMonetarySummation calculateSpecifiedMonetarySummation(final Item item) {
-    LOG.debug("Recalculating specified monetary summation for [{}]",
-        item.getProduct() != null ? item.getProduct().getName() : "N/A");
+
+    LOG.debug("Recalculating specified monetary summation for [{}]", item.getProduct() != null ? item.getProduct().getName() : "N/A");
 
     CurrencyCode currencyCode = getCurrency(item);
 
-    SpecifiedMonetarySummation monetarySummation =
-        MonetarySummations.newSpecifiedMonetarySummation(currencyCode);
-    monetarySummation.setLineTotal(
-        Amounts.setPrecision(new ItemLineTotalCalculator().apply(item), 2, RoundingMode.HALF_UP));
-    monetarySummation.setTotalAllowanceCharge(Amounts.setPrecision(
-        new ItemTotalAllowanceChargeCalculator(currencyCode).apply(item), 2, RoundingMode.HALF_UP));
+		SpecifiedMonetarySummation monetarySummation = MonetarySummations.newSpecifiedMonetarySummation(currencyCode);
+		monetarySummation.setLineTotal(Amounts.setPrecision(new ItemLineTotalCalculator().apply(item), 2, RoundingMode.HALF_UP));
+		monetarySummation.setTotalAllowanceCharge(Amounts.setPrecision(new ItemTotalAllowanceChargeCalculator(currencyCode).apply(item), 2, RoundingMode.HALF_UP));
 
     LOG.debug("==> lineTotal = {}", monetarySummation.getLineTotal());
     LOG.debug("==> totalAllowanceCharge = {}", monetarySummation.getTotalAllowanceCharge());
@@ -156,9 +156,9 @@ public final class AmountCalculator {
     return monetarySummation;
   }
 
-  private static void appendTaxFromInvoiceServiceCharge(Settlement settlement,
-      TaxAggregator taxAggregator) {
-    LOG.debug("Adding tax amounts from invoice service charge...");
+	private static void appendTaxFromInvoiceServiceCharge(Settlement settlement, TaxAggregator taxAggregator) {
+	  LOG.debug("Adding tax amounts from invoice service charge...");
+
     if (settlement.getServiceCharge() != null) {
       for (LogisticsServiceCharge charge : settlement.getServiceCharge()) {
         if (charge.getTradeTax() != null && charge.getAmount() != null) {
@@ -198,7 +198,6 @@ public final class AmountCalculator {
 
   /**
    * Extracts {@link CurrencyCode} from {@link Item} object.
-   * 
    * @param item
    * @return
    */

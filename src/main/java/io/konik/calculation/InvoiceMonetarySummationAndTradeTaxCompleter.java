@@ -12,8 +12,7 @@ import io.konik.zugferd.entity.trade.MonetarySummation;
 import io.konik.zugferd.entity.trade.TradeTax;
 
 /**
- * Recalculates invoice settlement {@link MonetarySummation} and replaces it in the {@link Invoice}
- * object.
+ * Recalculates invoice settlement {@link MonetarySummation} and replaces it in the {@link Invoice} object.
  */
 public final class InvoiceMonetarySummationAndTradeTaxCompleter implements Correction<Invoice> {
 

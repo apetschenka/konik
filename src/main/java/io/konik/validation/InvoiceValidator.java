@@ -45,42 +45,48 @@ import io.konik.zugferd.profile.ConformanceLevel;
 @Singleton
 public class InvoiceValidator {
 
-  private final Validator validator;
-  private final MonetarySummationValidator monetarySummationValidator;
+	private final Validator validator;
+	private final MonetarySummationValidator monetarySummationValidator;
 
-  /**
-   * Instantiates a new invoice validator.
-   *
-   * @param validator the validator
-   * @param monetarySummationValidator
-   */
-  @Inject
+	/**
+	 * Instantiates a new invoice validator.
+	 *
+	 * @param validator the validator
+	 * @param monetarySummationValidator 
+	 */
+	@Inject
 	public InvoiceValidator(Validator validator, MonetarySummationValidator monetarySummationValidator) {
-    super();
-    this.validator = validator;
-    this.monetarySummationValidator = monetarySummationValidator;
+		super();
+		this.validator = validator;
+		this.monetarySummationValidator = monetarySummationValidator;
+	}
+
+	/**
+	 * Instantiates a new invoice validator.
+	 *
+	 * @param validator the validator
+	 */
+	public InvoiceValidator(Validator validator) {
+		super();
+		this.validator = validator;
+		this.monetarySummationValidator = new MonetarySummationValidator(new DefaultMessageInterpolator());
+	}
+
+	/**
+	 * Instantiates a new default invoice validator, based on the Bean Validation provider
+	 */
+	public InvoiceValidator() {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		this.validator = factory.getValidator();
+		this.monetarySummationValidator = new MonetarySummationValidator(new DefaultMessageInterpolator());
   }
 
   /**
-   * Instantiates a new invoice validator.
+   * Validate the invoice without scheme-validation
    *
-   * @param validator the validator
+   * @param invoice the invoice
+   * @return the sets the
    */
-  public InvoiceValidator(Validator validator) {
-    super();
-    this.validator = validator;
-		this.monetarySummationValidator = new MonetarySummationValidator(new DefaultMessageInterpolator());
-  }
-
-  /**
-   * Instantiates a new default invoice validator, based on the Bean Validation provider
-   */
-  public InvoiceValidator() {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    this.validator = factory.getValidator();
-		this.monetarySummationValidator = new MonetarySummationValidator(new DefaultMessageInterpolator());
-  }
-
   public Set<ConstraintViolation<Invoice>> validate(Invoice invoice) {
     return validate(invoice, false);
   }
@@ -89,9 +95,10 @@ public class InvoiceValidator {
    * Validate the invoice
    *
    * @param invoice the invoice
+   * @param shallBeVvalidatedWithScheme true if the Validation should validate the invoice with the scheme aswell.
    * @return the sets the
    */
-  public Set<ConstraintViolation<Invoice>> validate(Invoice invoice, boolean validateWithSchema) {
+  public Set<ConstraintViolation<Invoice>> validate(Invoice invoice, boolean shallBeVvalidatedWithScheme) {
     ConformanceLevel conformanceLevel = invoice.getContext().getGuideline().getConformanceLevel();
     Class<?>[] validationGroups = resolveIntoValidationGroups(conformanceLevel);
     Set<ConstraintViolation<Invoice>> violations = validator.validate(invoice, validationGroups);
@@ -100,7 +107,7 @@ public class InvoiceValidator {
       violations.addAll(monetarySummationValidator.validate(invoice, validationGroups));
     }
 
-    if (validateWithSchema) {
+    if (shallBeVvalidatedWithScheme) {
       try {
         validateWithShema(invoice);
       } catch (IOException e) {
@@ -122,22 +129,22 @@ public class InvoiceValidator {
     invoiceTransformer.getZfSchemaValidator().validate(xmlFile);
   }
 
-  /**
-   * Resolve the given profile into bean validation groups.
-   *
-   * @param conformanceLevel the given profile
-   * @return the class[] list of validation group classes
-   */
-  public static Class<?>[] resolveIntoValidationGroups(ConformanceLevel conformanceLevel) {
-    switch (conformanceLevel) {
-      case BASIC:
-        return new Class[] {Default.class};
-      case COMFORT:
-        return new Class[] {Default.class, Comfort.class};
-      case EXTENDED:
-        return new Class[] {Default.class, Comfort.class, Extended.class};
-      default:
-        throw new IllegalArgumentException("Provided Profile:" + conformanceLevel + "not covered");
-    }
-  }
+	/**
+	 * Resolve the given profile into bean validation groups.
+	 *
+	 * @param conformanceLevel the given profile
+	 * @return the class[] list of validation group classes
+	 */
+	public static Class<?>[] resolveIntoValidationGroups(ConformanceLevel conformanceLevel) {
+		switch (conformanceLevel) {
+			case BASIC:
+				return new Class[]{Default.class};
+			case COMFORT:
+				return new Class[]{Default.class, Comfort.class};
+			case EXTENDED:
+				return new Class[]{Default.class, Comfort.class, Extended.class};
+			default:
+				throw new IllegalArgumentException("Provided Profile:" + conformanceLevel + "not covered");
+		}
+	}
 }
