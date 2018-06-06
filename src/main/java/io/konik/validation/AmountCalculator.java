@@ -111,7 +111,8 @@ public final class AmountCalculator {
 
     appendTaxFromInvoiceServiceCharge(settlement, taxAggregator);
 
-    monetarySummation.setTaxBasisTotal(new Amount(taxAggregator.calculateTaxBasis(), currency));
+    monetarySummation
+        .setTaxBasisTotal(new Amount(taxAggregator.calculateTaxBasis(), currency));
     monetarySummation.setTaxTotal(new Amount(taxAggregator.calculateTaxTotal(), currency));
 
     monetarySummation.setGrandTotal(
@@ -133,7 +134,6 @@ public final class AmountCalculator {
 
     LOG.debug("Recalculating invoice monetary summation DONE!");
     LOG.debug(" ==> result: {}", result);
-    LOG.debug("");
 
     return new RecalculationResult(result, taxAggregator);
   }

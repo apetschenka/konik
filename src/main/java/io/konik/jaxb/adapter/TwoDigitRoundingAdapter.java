@@ -1,18 +1,19 @@
-/*
- * Copyright (C) 2014 konik.io
+/* Copyright (C) 2014 konik.io
  *
  * This file is part of the Konik library.
  *
- * The Konik library is free software: you can redistribute it and/or modify it under the terms of
- * the GNU Affero General Public License as published by the Free Software Foundation, either
- * version 3 of the License, or (at your option) any later version.
+ * The Konik library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- * The Konik library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * The Konik library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License along with the Konik
- * library. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with the Konik library. If not, see <http://www.gnu.org/licenses/>.
  */
 package io.konik.jaxb.adapter;
 
@@ -32,8 +33,10 @@ import io.konik.zugferd.unqualified.Amount;
  * 
  * Defaults::
  * 
- * ---- io.konik.jaxb.adapter.TwoDigitRoundingAdapter.scale=2
- * io.konik.jaxb.adapter.TwoDigitRoundingAdapter.roundingMode=HALF_UP ----
+ * ----
+ * io.konik.jaxb.adapter.TwoDigitRoundingAdapter.scale=2
+ * io.konik.jaxb.adapter.TwoDigitRoundingAdapter.roundingMode=HALF_UP
+ * ----
  */
 public class TwoDigitRoundingAdapter extends XmlAdapter<Amount, Amount> {
 
@@ -50,8 +53,7 @@ public class TwoDigitRoundingAdapter extends XmlAdapter<Amount, Amount> {
   public TwoDigitRoundingAdapter() {
     String name = this.getClass().getName();
     scale = parseInt(Configuration.INSTANCE.getProperty(name + ".scale", getDefaultScale()));
-    roundingMode =
-        valueOf(Configuration.INSTANCE.getProperty(name + ".roundingMode", DEFAULT_ROUNDING_MODE));
+      roundingMode = valueOf(Configuration.INSTANCE.getProperty(name + ".roundingMode", DEFAULT_ROUNDING_MODE));
     stripTrailingZeros = Configuration.INSTANCE.stripTrailingZeros();
   }
 
@@ -61,25 +63,19 @@ public class TwoDigitRoundingAdapter extends XmlAdapter<Amount, Amount> {
 
   @Override
   public Amount unmarshal(Amount amount) throws Exception {
-    if (amount == null || amount.getValue() == null) {
-      return amount;
-    }
+     if (amount == null || amount.getValue() == null) { return amount; }
     return amount.setValue(round(amount));
   }
 
   @Override
   public Amount marshal(Amount amount) throws Exception {
-    if (amount == null || amount.getValue() == null) {
-      return amount;
-    }
+      if (amount == null || amount.getValue() == null) { return amount; }
     return amount.setValue(round(amount));
   }
 
   private BigDecimal round(Amount amount) {
     BigDecimal rounded = amount.getValue().setScale(scale, roundingMode);
-    if (stripTrailingZeros) {
-      return rounded.stripTrailingZeros();
-    }
+      if (stripTrailingZeros) { return rounded.stripTrailingZeros(); }
     return rounded;
   }
 }
