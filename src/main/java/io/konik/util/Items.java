@@ -1,10 +1,13 @@
 package io.konik.util;
 
+import static java.math.BigDecimal.ONE;
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import io.konik.zugferd.entity.GrossPrice;
 import io.konik.zugferd.entity.trade.item.Item;
 
 /**
@@ -37,5 +40,18 @@ public final class Items {
 						item.getSettlement() != null;
 			}
 		});
+	}
+
+    /**
+     * Extract the Items Basis Quantity in a safe way.
+     * @param item
+     * @return the basis quantity or 1
+     */
+	public static BigDecimal basisQuantity(Item item) {
+		GrossPrice grossPrice = item.getAgreement().getGrossPrice();
+		if (grossPrice == null || grossPrice.getBasis() == null ) {
+			return ONE;
+		}
+		return grossPrice.getBasis().getValue();
 	}
 }
