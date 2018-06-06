@@ -18,10 +18,11 @@
 package io.konik.validator;
 
 import static io.konik.util.Strings.isNotEmpty;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import io.konik.validator.annotation.ValidContact;
 import io.konik.zugferd.entity.Contact;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  * Validates if the Contact is valid by having a contact name or department

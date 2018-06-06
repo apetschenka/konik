@@ -1,7 +1,8 @@
 package io.konik.sdk.invoice;
 
-import java.io.InputStream;
 import io.konik.zugferd.Invoice;
+
+import java.io.InputStream;
 
 public interface InvoiceApi {
 

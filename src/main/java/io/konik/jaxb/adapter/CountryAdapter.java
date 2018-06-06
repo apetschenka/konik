@@ -17,12 +17,15 @@
  */
 package io.konik.jaxb.adapter;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-import com.neovisionaries.i18n.CountryCode;
 import io.konik.jaxb.bindable.entity.TradeCountry;
 import io.konik.util.Strings;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import com.neovisionaries.i18n.CountryCode;
 
 /**
  * = The CountryAdapter maps the JaxB trade countries to the Enum CountryCode.

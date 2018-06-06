@@ -18,9 +18,6 @@
  */
 package io.konik.zugferd;
 
-import java.io.Serializable;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -30,6 +27,10 @@ import io.konik.zugferd.entity.Context;
 import io.konik.zugferd.entity.Header;
 import io.konik.zugferd.entity.trade.Trade;
 import io.konik.zugferd.profile.ConformanceLevel;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * = The Root of the ZUGFeRD Document Model.
