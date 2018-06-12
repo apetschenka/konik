@@ -17,72 +17,72 @@
 
 package io.konik.zugferd.entity;
 
-import io.konik.validator.annotation.Extended;
-import io.konik.validator.annotation.NullableNotBlank;
-import io.konik.zugferd.unqualified.ID;
-
 import javax.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import io.konik.validator.annotation.Extended;
+import io.konik.validator.annotation.NullableNotBlank;
+import io.konik.zugferd.unqualified.ID;
+
 /**
  * = The Logistics Transport Movement.
  * 
  */
-@XmlType(name = "LogisticsTransportMovementType", propOrder = {"modeCode", "shippingId"})
+@XmlType(name = "LogisticsTransportMovementType", propOrder = { "modeCode", "shippingId" })
 public class LogisticsTransportMovement {
 
-  @XmlElement(name = "ModeCode")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  private String modeCode;
+   @XmlElement(name = "ModeCode")
+   @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+   private String modeCode;
 
-  @XmlElement(name = "ID")
-  private ID shippingId;
+   @XmlElement(name = "ID")
+   private ID shippingId;
 
-  /**
+   /**
    * Gets the shpping mode code.
    *
    * @return the mode code
    */
-  @NullableNotBlank
-  @Extended
-  public String getModeCode() {
-    return modeCode;
-  }
+   @NullableNotBlank
+   @Extended
+   public String getModeCode() {
+      return modeCode;
+   }
 
-  /**
+   /**
    * Sets the shpping mode code.
    *
    * @param modeCode the mode code
    * @return the logistics transport movement
    */
-  public LogisticsTransportMovement setModeCode(String modeCode) {
-    this.modeCode = modeCode;
-    return this;
-  }
+   public LogisticsTransportMovement setModeCode(String modeCode) {
+      this.modeCode = modeCode;
+      return this;
+   }
 
-  /**
+   /**
    * Gets the shpping id.
    *
    * @return the id
    */
-  @Valid
-  @Extended
-  public ID getShppingId() {
-    return shippingId;
-  }
+   @Valid
+   @Extended
+   public ID getShppingId() {
+      return shippingId;
+   }
 
-  /**
+   /**
    * Sets the shpping id.
    *
    * @param shippingId the id
    * @return the logistics transport movement
    */
-  public LogisticsTransportMovement setShppingId(ID shippingId) {
-    this.shippingId = shippingId;
-    return this;
-  }
+   public LogisticsTransportMovement setShppingId(ID shippingId) {
+      this.shippingId = shippingId;
+      return this;
+   }
 
 }

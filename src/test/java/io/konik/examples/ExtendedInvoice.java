@@ -16,7 +16,6 @@
  */
 package io.konik.examples;
 
-
 import static com.neovisionaries.i18n.CountryCode.DE;
 import static com.neovisionaries.i18n.CurrencyCode.EUR;
 import static io.konik.utils.InvoiceLoaderUtils.getSchemaValidator;
@@ -25,13 +24,18 @@ import static io.konik.zugferd.unece.codes.DocumentCode._380;
 import static io.konik.zugferd.unece.codes.Reference.FC;
 import static io.konik.zugferd.unece.codes.UnitOfMeasurement.UNIT;
 import static org.apache.commons.lang3.time.DateUtils.addMonths;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import javax.xml.transform.stream.StreamSource;
+
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
 import com.google.common.io.ByteSource;
+
 import io.konik.InvoiceTransformer;
 import io.konik.zugferd.Invoice;
 import io.konik.zugferd.entity.Address;
@@ -61,67 +65,65 @@ import io.konik.zugferd.unqualified.ZfDateMonth;
 @SuppressWarnings("javadoc")
 public class ExtendedInvoice {
 
-  ZfDate today = new ZfDateDay();
-  ZfDate nextMonth = new ZfDateMonth(addMonths(today, 1));
+   ZfDate today = new ZfDateDay();
+   ZfDate nextMonth = new ZfDateMonth(addMonths(today, 1));
 
-  private Invoice createMinimalInvoiceModel() {
+   private Invoice createMinimalInvoiceModel() {
 
-    Invoice invoice = new Invoice(EXTENDED); // <1>
-    invoice.setHeader(new Header().setInvoiceNumber("20131122-42").setCode(_380).setIssued(today)
-        .setName("Rechnung"));
+      Invoice invoice = new Invoice(EXTENDED); // <1>
+      invoice.setHeader(new Header().setInvoiceNumber("20131122-42").setCode(_380).setIssued(today)
+            .setName("Rechnung"));
 
-    Trade trade = new Trade();
-    trade.setAgreement(new Agreement() // <2>
-        .setSeller(new TradeParty().setName("Seller Inc.")
-            .setAddress(new Address("80331", "Marienplatz 1", "München", DE))
-            .addTaxRegistrations(new TaxRegistration("DE122...", FC)))
-        .setBuyer(new TradeParty().setName("Buyer Inc.")
-            .setAddress(new Address("50667", "Domkloster 4", "Köln", DE))
-            .addTaxRegistrations(new TaxRegistration("DE123...", FC))));
+      Trade trade = new Trade();
+      trade.setAgreement(new Agreement() // <2>
+            .setSeller(new TradeParty().setName("Seller Inc.")
+                  .setAddress(new Address("80331", "Marienplatz 1", "München", DE))
+                  .addTaxRegistrations(new TaxRegistration("DE122...", FC)))
+            .setBuyer(new TradeParty().setName("Buyer Inc.")
+                  .setAddress(new Address("50667", "Domkloster 4", "Köln", DE))
+                  .addTaxRegistrations(new TaxRegistration("DE123...", FC))));
 
-    trade.setDelivery(new Delivery(nextMonth));
+      trade.setDelivery(new Delivery(nextMonth));
 
-    trade.setSettlement(new Settlement().setPaymentReference("20131122-42").setCurrency(EUR)
-        .addPaymentMeans(new PaymentMeans().setPayerAccount(new DebtorFinancialAccount("DE01234.."))
-            .setPayerInstitution(new FinancialInstitution("GENO...")))
-        .setMonetarySummation(new MonetarySummation().setLineTotal(new Amount(100, EUR))
-            .setTaxTotal(new Amount(19, EUR)).setGrandTotal(new Amount(119, EUR))));
+      trade.setSettlement(new Settlement().setPaymentReference("20131122-42").setCurrency(EUR)
+            .addPaymentMeans(new PaymentMeans().setPayerAccount(new DebtorFinancialAccount("DE01234.."))
+                  .setPayerInstitution(new FinancialInstitution("GENO...")))
+            .setMonetarySummation(new MonetarySummation().setLineTotal(new Amount(100, EUR))
+                  .setTaxTotal(new Amount(19, EUR)).setGrandTotal(new Amount(119, EUR))));
 
-    trade.addItem(new Item().setProduct(new Product().setName("Saddle"))
-        .setDelivery(new SpecifiedDelivery(new Quantity(1, UNIT))));
-    invoice.setTrade(trade);
+      trade.addItem(new Item().setProduct(new Product().setName("Saddle"))
+            .setDelivery(new SpecifiedDelivery(new Quantity(1, UNIT))));
+      invoice.setTrade(trade);
 
-    return invoice;
-  }
+      return invoice;
+   }
 
+   public void createXmlFromModel(Invoice invoice) throws IOException {
+      InvoiceTransformer transformer = new InvoiceTransformer(); // <1>
+      FileOutputStream outputStream = new FileOutputStream("target/minimal-invoice.xml");
+      transformer.fromModel(invoice, outputStream); // <2>
+   }
 
-  public void createXmlFromModel(Invoice invoice) throws IOException {
-    InvoiceTransformer transformer = new InvoiceTransformer(); // <1>
-    FileOutputStream outputStream = new FileOutputStream("target/minimal-invoice.xml");
-    transformer.fromModel(invoice, outputStream); // <2>
-  }
+   @Test
+   public void creatMinimalInvoice() throws IOException {
+      // setup
+      Invoice invoice = createMinimalInvoiceModel();
+      createXmlFromModel(invoice);
+   }
 
+   @Test
+   public void validateMinimalInvoice() throws IOException, SAXException {
+      // setup
+      Invoice invoice = createMinimalInvoiceModel();
+      InvoiceTransformer transformer = new InvoiceTransformer();
 
-  @Test
-  public void creatMinimalInvoice() throws IOException {
-    // setup
-    Invoice invoice = createMinimalInvoiceModel();
-    createXmlFromModel(invoice);
-  }
+      // execute
+      byte[] xmlInvoice = transformer.fromModel(invoice);
 
-  @Test
-  public void validateMinimalInvoice() throws IOException, SAXException {
-    // setup
-    Invoice invoice = createMinimalInvoiceModel();
-    InvoiceTransformer transformer = new InvoiceTransformer();
+      // verify
+      InputStream is = ByteSource.wrap(xmlInvoice).openBufferedStream();
+      getSchemaValidator().validate(new StreamSource(is));
 
-    // execute
-    byte[] xmlInvoice = transformer.fromModel(invoice);
-
-    // verify
-    InputStream is = ByteSource.wrap(xmlInvoice).openBufferedStream();
-    getSchemaValidator().validate(new StreamSource(is));
-
-  }
+   }
 
 }

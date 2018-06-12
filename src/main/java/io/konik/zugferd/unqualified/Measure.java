@@ -18,7 +18,8 @@
 
 package io.konik.zugferd.unqualified;
 
-import io.konik.jaxb.adapter.MeasureRoundingAdapter;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -30,8 +31,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.math.BigDecimal;
+
+import io.konik.jaxb.adapter.MeasureRoundingAdapter;
 
 /**
  * = The quantifying metric measure value and type

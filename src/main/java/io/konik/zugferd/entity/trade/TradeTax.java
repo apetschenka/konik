@@ -17,6 +17,13 @@
  */
 package io.konik.zugferd.entity.trade;
 
+import java.math.BigDecimal;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import io.konik.jaxb.adapter.TwoDigitRoundingAdapter;
 import io.konik.jaxb.bindable.unqualified.PercentRoundingAdapter;
 import io.konik.validator.annotation.Basic;
@@ -27,171 +34,161 @@ import io.konik.zugferd.unece.codes.TaxCategory;
 import io.konik.zugferd.unece.codes.TaxCode;
 import io.konik.zugferd.unqualified.Amount;
 
-import java.math.BigDecimal;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 /**
  * = The tax applied to a trade.
  */
 public class TradeTax implements SpecifiedTax {
 
-  @XmlElement(name = "CalculatedAmount")
-  @XmlJavaTypeAdapter(TwoDigitRoundingAdapter.class)
-  private Amount calculated;
+   @XmlElement(name = "CalculatedAmount")
+   @XmlJavaTypeAdapter(TwoDigitRoundingAdapter.class)
+   private Amount calculated;
 
-  @XmlElement(name = "TypeCode")
-  private TaxCode type;
+   @XmlElement(name = "TypeCode")
+   private TaxCode type;
 
-  @XmlElement(name = "ExemptionReason")
-  private String exemptionReason;
+   @XmlElement(name = "ExemptionReason")
+   private String exemptionReason;
 
-  @XmlElement(name = "BasisAmount")
-  private Amount basis;
+   @XmlElement(name = "BasisAmount")
+   private Amount basis;
 
-  @XmlElement(name = "LineTotalBasisAmount")
-  private Amount lineTotal;
+   @XmlElement(name = "LineTotalBasisAmount")
+   private Amount lineTotal;
 
-  @XmlElement(name = "AllowanceChargeBasisAmount")
-  private Amount allowanceCharge;
+   @XmlElement(name = "AllowanceChargeBasisAmount")
+   private Amount allowanceCharge;
 
-  @XmlElement(name = "CategoryCode")
-  private TaxCategory category;
+   @XmlElement(name = "CategoryCode")
+   private TaxCategory category;
 
-  @XmlElement(name = "ApplicablePercent")
-  @XmlJavaTypeAdapter(PercentRoundingAdapter.class)
-  private BigDecimal percentage;
+   @XmlElement(name = "ApplicablePercent")
+   @XmlJavaTypeAdapter(PercentRoundingAdapter.class)
+   private BigDecimal percentage;
 
+   @Basic
+   @NotNull
+   @Valid
+   @Override
+   public Amount getCalculated() {
+      return calculated;
+   }
 
-  @Basic
-  @NotNull
-  @Valid
-  @Override
-  public Amount getCalculated() {
-    return calculated;
-  }
+   @Override
+   public TradeTax setCalculated(Amount calculatedAmount) {
+      this.calculated = calculatedAmount;
+      return this;
+   }
 
-  @Override
-  public TradeTax setCalculated(Amount calculatedAmount) {
-    this.calculated = calculatedAmount;
-    return this;
-  }
+   @Basic
+   @NotNull
+   @Override
+   public TaxCode getType() {
+      return type;
+   }
 
-  @Basic
-  @NotNull
-  @Override
-  public TaxCode getType() {
-    return type;
-  }
+   @Override
+   public TradeTax setType(TaxCode taxTypeCode) {
+      this.type = taxTypeCode;
+      return this;
+   }
 
-  @Override
-  public TradeTax setType(TaxCode taxTypeCode) {
-    this.type = taxTypeCode;
-    return this;
-  }
+   @Override
+   public String getExemptionReason() {
+      return exemptionReason;
+   }
 
-  @Override
-  public String getExemptionReason() {
-    return exemptionReason;
-  }
+   @Override
+   public TradeTax setExemptionReason(String exemptionReason) {
+      this.exemptionReason = exemptionReason;
+      return this;
+   }
 
-  @Override
-  public TradeTax setExemptionReason(String exemptionReason) {
-    this.exemptionReason = exemptionReason;
-    return this;
-  }
-
-  /**
+   /**
    * Gets the basis amount for tax calculation.
    * 
    * @return the basis amount
    */
-  @Basic
-  @Valid
-  @NotNull
-  public Amount getBasis() {
-    return basis;
-  }
+   @Basic
+   @Valid
+   @NotNull
+   public Amount getBasis() {
+      return basis;
+   }
 
-  /**
+   /**
    * Sets the basis amount for tax calculation.
    * 
    * @param basisAmount the new basis amount
    * @return the tax
    */
-  public TradeTax setBasis(Amount basisAmount) {
-    this.basis = basisAmount;
-    return this;
-  }
+   public TradeTax setBasis(Amount basisAmount) {
+      this.basis = basisAmount;
+      return this;
+   }
 
-  /**
+   /**
    * Gets the line total.
    *
    * @return the line total
    */
-  @Valid
-  @Extended
-  public Amount getLineTotal() {
-    return lineTotal;
-  }
+   @Valid
+   @Extended
+   public Amount getLineTotal() {
+      return lineTotal;
+   }
 
-  /**
+   /**
    * Sets the line total.
    *
    * @param lineTotal the new line total
    */
-  public void setLineTotal(Amount lineTotal) {
-    this.lineTotal = lineTotal;
-  }
+   public void setLineTotal(Amount lineTotal) {
+      this.lineTotal = lineTotal;
+   }
 
-  /**
+   /**
    * Gets the allowance charge.
    *
    * @return the allowance charge
    */
-  @Valid
-  @Extended
-  public Amount getAllowanceCharge() {
-    return allowanceCharge;
-  }
+   @Valid
+   @Extended
+   public Amount getAllowanceCharge() {
+      return allowanceCharge;
+   }
 
-  /**
+   /**
    * Sets the allowance charge.
    *
    * @param allowanceCharge the new allowance charge
    */
-  public void setAllowanceCharge(Amount allowanceCharge) {
-    this.allowanceCharge = allowanceCharge;
-  }
+   public void setAllowanceCharge(Amount allowanceCharge) {
+      this.allowanceCharge = allowanceCharge;
+   }
 
-  @Comfort
-  @Override
-  public TaxCategory getCategory() {
-    return category;
-  }
+   @Comfort
+   @Override
+   public TaxCategory getCategory() {
+      return category;
+   }
 
-  @Override
-  public TradeTax setCategory(TaxCategory taxCategory) {
-    this.category = taxCategory;
-    return this;
-  }
+   @Override
+   public TradeTax setCategory(TaxCategory taxCategory) {
+      this.category = taxCategory;
+      return this;
+   }
 
-  @Basic
-  @NotNull
-  @Override
-  public BigDecimal getPercentage() {
-    return percentage;
-  }
+   @Basic
+   @NotNull
+   @Override
+   public BigDecimal getPercentage() {
+      return percentage;
+   }
 
-  @Override
-  public TradeTax setPercentage(BigDecimal applicablePercentage) {
-    this.percentage = applicablePercentage;
-    return this;
-  }
-
-
+   @Override
+   public TradeTax setPercentage(BigDecimal applicablePercentage) {
+      this.percentage = applicablePercentage;
+      return this;
+   }
 
 }

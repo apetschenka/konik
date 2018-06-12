@@ -17,56 +17,57 @@
 
 package io.konik.zugferd.entity;
 
-import javax.validation.Valid;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import static java.util.Collections.addAll;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Collections.addAll;
+import javax.validation.Valid;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * = The Consignment.
  * 
  */
-@XmlType(name = "SupplyChainConsignmentType", propOrder = {"shippingMethods"})
+@XmlType(name = "SupplyChainConsignmentType", propOrder = { "shippingMethods" })
 public class Consignment implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-  @Valid
-  @XmlElement(name = "SpecifiedLogisticsTransportMovement")
-  private List<LogisticsTransportMovement> shippingMethods;
+   @Valid
+   @XmlElement(name = "SpecifiedLogisticsTransportMovement")
+   private List<LogisticsTransportMovement> shippingMethods;
 
-  /**
+   /**
    * The Constructor.
    */
-  public Consignment() {
-    super();
-  }
+   public Consignment() {
+      super();
+   }
 
-  /**
+   /**
    * Gets the shipping method.
    *
    * @return the shipping method
    */
-  public List<LogisticsTransportMovement> getShippingMethods() {
-    if (shippingMethods == null) {
-      shippingMethods = new ArrayList<LogisticsTransportMovement>();
-    }
-    return shippingMethods;
-  }
+   public List<LogisticsTransportMovement> getShippingMethods() {
+      if (shippingMethods == null) {
+         shippingMethods = new ArrayList<LogisticsTransportMovement>();
+      }
+      return shippingMethods;
+   }
 
-  /**
+   /**
    * adds shipping methods.
    *
    * @param additionalShippingMethod the additional shipping method
    * @return the consignment
    */
-  public Consignment addShippingMethod(LogisticsTransportMovement... additionalShippingMethod) {
-    addAll(getShippingMethods(), additionalShippingMethod);
-    return this;
-  }
+   public Consignment addShippingMethod(LogisticsTransportMovement... additionalShippingMethod) {
+      addAll(getShippingMethods(), additionalShippingMethod);
+      return this;
+   }
 
 }

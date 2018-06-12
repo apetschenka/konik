@@ -19,12 +19,15 @@ package io.konik.zugferd.entity.trade;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import com.neovisionaries.i18n.CurrencyCode;
+
 import io.konik.jaxb.bindable.entity.AccountingAccountAdapter;
 import io.konik.validator.annotation.Basic;
 import io.konik.validator.annotation.Comfort;
@@ -333,7 +336,9 @@ public class Settlement implements CommonSettlement<TradeTax, MonetarySummation>
     * 
     * @return the specified trade settlement monetary summation
     */
-   @Basic@Valid@NotNull   
+   @Basic
+   @Valid
+   @NotNull
    @Override
    public MonetarySummation getMonetarySummation() {
       return monetarySummation;
@@ -362,7 +367,6 @@ public class Settlement implements CommonSettlement<TradeTax, MonetarySummation>
       return costCenter;
    }
 
-   
    /**
     * Sets  the booking reference or cost center account.
     *

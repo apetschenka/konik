@@ -17,6 +17,7 @@
 package io.konik;
 
 import static java.util.logging.Level.CONFIG;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map.Entry;
@@ -33,45 +34,44 @@ import java.util.logging.Logger;
  */
 public enum Configuration {
 
-  /** The singleton configuration instance. */
-  INSTANCE;
+   /** The singleton configuration instance. */
+   INSTANCE;
 
-  private static final Logger LOG = Logger.getLogger(Configuration.class.getName());
-  private final Properties properties;
+   private static final Logger LOG = Logger.getLogger(Configuration.class.getName());
+   private final Properties properties;
 
-  Configuration() {
-    properties = new Properties();
-    load();
-  }
+   Configuration() {
+      properties = new Properties();
+      load();
+   }
 
-  void load() {
-    loadPropertiesFromFile();
-    overwriteWithSystemProperties();
-  }
+   void load() {
+      loadPropertiesFromFile();
+      overwriteWithSystemProperties();
+   }
 
-  private void loadPropertiesFromFile() {
-    String fileName = Configuration.class.getName().toLowerCase();
-    InputStream propertiesStream =
-        this.getClass().getResourceAsStream("/" + fileName + ".properties");
-    if (propertiesStream != null) {
-      try {
-        properties.load(propertiesStream);
-      } catch (IOException e) {
-        LOG.log(CONFIG, "could not load properties file" + fileName + " from classpath", e);
+   private void loadPropertiesFromFile() {
+      String fileName = Configuration.class.getName().toLowerCase();
+      InputStream propertiesStream = this.getClass().getResourceAsStream("/" + fileName + ".properties");
+      if (propertiesStream != null) {
+         try {
+            properties.load(propertiesStream);
+         } catch (IOException e) {
+            LOG.log(CONFIG, "could not load properties file" + fileName + " from classpath", e);
+         }
       }
-    }
-  }
+   }
 
-  private void overwriteWithSystemProperties() {
-    for (Entry<Object, Object> sysProperty : System.getProperties().entrySet()) {
-      if (sysProperty.getKey() instanceof String
-          && ((String) sysProperty.getKey()).startsWith("io.konik")) {
-        properties.put(sysProperty.getKey(), sysProperty.getValue());
+   private void overwriteWithSystemProperties() {
+      for (Entry<Object, Object> sysProperty : System.getProperties().entrySet()) {
+         if (sysProperty.getKey() instanceof String
+               && ((String) sysProperty.getKey()).startsWith("io.konik")) {
+            properties.put(sysProperty.getKey(), sysProperty.getValue());
+         }
       }
-    }
-  }
+   }
 
-  /**
+   /**
    * Searches for the property with the specified key in this property list. If the key is not found
    * in this property list, the default property list, and its defaults, recursively, are then
    * checked. The method returns <code>null</code> if the property is not found.
@@ -80,11 +80,11 @@ public enum Configuration {
    * @return the value in this property list with the specified key value.
    * @see Configuration#getProperty(String, String)
    */
-  public String getProperty(String key) {
-    return properties.getProperty(key);
-  }
+   public String getProperty(String key) {
+      return properties.getProperty(key);
+   }
 
-  /**
+   /**
    * Searches for the property with the specified key in this property list. If the key is not found
    * in this property list, the default property list, and its defaults, recursively, are then
    * checked. The method returns the default value argument if the property is not found.
@@ -95,22 +95,22 @@ public enum Configuration {
    * @return the value in this property list with the specified key value.
    * @see Configuration#getProperty(String)
    */
-  public String getProperty(String key, String defaultValue) {
-    return properties.getProperty(key, defaultValue);
-  }
+   public String getProperty(String key, String defaultValue) {
+      return properties.getProperty(key, defaultValue);
+   }
 
-  /**
+   /**
    * Indicate of Konik should strip the trailing zeros in all amounts.
    * 
    * 
    * @return true if strip trailing zeros is active (default is false)
    */
-  public boolean stripTrailingZeros() {
-    return Boolean.parseBoolean(getProperty("io.konik.stripTrailingZeros", "false"));
-  }
+   public boolean stripTrailingZeros() {
+      return Boolean.parseBoolean(getProperty("io.konik.stripTrailingZeros", "false"));
+   }
 
-  @Override
-  public String toString() {
-    return "Konik Configuration dump\n" + properties.toString();
-  }
+   @Override
+   public String toString() {
+      return "Konik Configuration dump\n" + properties.toString();
+   }
 }

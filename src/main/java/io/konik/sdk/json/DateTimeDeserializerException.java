@@ -5,9 +5,9 @@ import java.text.ParseException;
 
 public class DateTimeDeserializerException extends RuntimeException {
 
-  private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-  public DateTimeDeserializerException(ParseException e) {
-    super(e);
-  }
+   public DateTimeDeserializerException(ParseException e) {
+      super(e);
+   }
 }

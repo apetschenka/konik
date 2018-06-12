@@ -19,14 +19,17 @@ package io.konik.zugferd;
 import static com.google.common.io.Files.getFileExtension;
 import static java.nio.charset.Charset.forName;
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import javax.xml.transform.stream.StreamSource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.custommonkey.xmlunit.Diff;
@@ -40,8 +43,10 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.xml.sax.SAXException;
+
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+
 import io.konik.InvoiceTransformer;
 import io.konik.PrittyPrintInvoiceTransformer;
 import io.konik.utils.NumberDifferenceXmlComparison;
@@ -52,124 +57,115 @@ import io.konik.validator.NullableNotBlankValidator;
 @RunWith(Parameterized.class)
 public class AllSampleXmlInvoicesTest {
 
-  private static final Logger log = LogManager.getLogger();
+   private static final Logger log = LogManager.getLogger();
 
-  private static final String TEST_FILE_LOCATION = "src/test/resources";
+   private static final String TEST_FILE_LOCATION = "src/test/resources";
 
-  private static final String UTF_8 = "UTF-8";
+   private static final String UTF_8 = "UTF-8";
 
+   @Parameter
+   public File testFile;
 
-  @Parameter
-  public File testFile;
+   @Parameter(value = 1)
+   public String testFileName;
 
-  @Parameter(value = 1)
-  public String testFileName;
+   InvoiceTransformer transformer = new PrittyPrintInvoiceTransformer();
 
-  InvoiceTransformer transformer = new PrittyPrintInvoiceTransformer();
+   static int unmarshallCounter;
+   static int schemaValidationCounter;
+   static int marshallBackCounter;
+   static int modelValidationCounter;
 
+   @BeforeClass
+   public static void setup() {
+      XMLUnit.setIgnoreWhitespace(true);
+      XMLUnit.setIgnoreAttributeOrder(false);
+      XMLUnit.setIgnoreComments(true);
 
-  static int unmarshallCounter;
-  static int schemaValidationCounter;
-  static int marshallBackCounter;
-  static int modelValidationCounter;
+      // validator
+      ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+      NullableNotBlankValidator notBlankValidator = factory.getConstraintValidatorFactory()
+            .getInstance(NullableNotBlankValidator.class);
+      assertThat(notBlankValidator).isNotNull();
+   }
 
-  @BeforeClass
-  public static void setup() {
-    XMLUnit.setIgnoreWhitespace(true);
-    XMLUnit.setIgnoreAttributeOrder(false);
-    XMLUnit.setIgnoreComments(true);
+   @AfterClass
+   public static void printStatistics() {
+      System.out.println("Statistics:");
+      System.out.println("Unmarshalled:            " + unmarshallCounter);
+      System.out.println("Schema validated:        " + schemaValidationCounter);
+      System.out.println("Model validated:         " + modelValidationCounter);
+      System.out.println("Round trip marshalled:   " + marshallBackCounter);
+      System.out.println("*************************");
 
-    // validator
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    NullableNotBlankValidator notBlankValidator =
-        factory.getConstraintValidatorFactory().getInstance(NullableNotBlankValidator.class);
-    assertThat(notBlankValidator).isNotNull();
-  }
+   }
 
-  @AfterClass
-  public static void printStatistics() {
-    System.out.println("Statistics:");
-    System.out.println("Unmarshalled:            " + unmarshallCounter);
-    System.out.println("Schema validated:        " + schemaValidationCounter);
-    System.out.println("Model validated:         " + modelValidationCounter);
-    System.out.println("Round trip marshalled:   " + marshallBackCounter);
-    System.out.println("*************************");
-
-
-  }
-
-  @Parameters(name = "{1}")
-  public static Iterable<Object[]> findAllInvoiceXMlFiles() {
-    Collection<Object[]> result = Lists.newArrayList();
-    File xmlDir = new File(TEST_FILE_LOCATION);
-    Iterable<File> traversal = Files.fileTreeTraverser().children(xmlDir);
-    for (File file : traversal) {
-      if (file.isFile() && getFileExtension(file.getName()).equals("xml")
-          && !file.getName().contains("log4j2") && !file.getName().contains("error")) {
-        result.add(new Object[] {file, file.getName()});
+   @Parameters(name = "{1}")
+   public static Iterable<Object[]> findAllInvoiceXMlFiles() {
+      Collection<Object[]> result = Lists.newArrayList();
+      File xmlDir = new File(TEST_FILE_LOCATION);
+      Iterable<File> traversal = Files.fileTreeTraverser().children(xmlDir);
+      for (File file : traversal) {
+         if (file.isFile() && getFileExtension(file.getName()).equals("xml")
+               && !file.getName().contains("log4j2") && !file.getName().contains("error")) {
+            result.add(new Object[] { file, file.getName() });
+         }
       }
-    }
-    return result;
-  }
+      return result;
+   }
 
+   @Test
+   public void unmarshalInvoice() {
+      // execute
+      Invoice invoice = transformer.toModel(testFile);
 
-  @Test
-  public void unmarshalInvoice() {
-    // execute
-    Invoice invoice = transformer.toModel(testFile);
+      // verify
+      assertThat(invoice).isNotNull();
+      unmarshallCounter++;
+   }
 
-    // verify
-    assertThat(invoice).isNotNull();
-    unmarshallCounter++;
-  }
+   @Test
+   public void validateInvoiceAgainstSchema() throws SAXException, IOException {
+      transformer.getZfSchemaValidator().validate(new StreamSource(testFile));
+      schemaValidationCounter++;
+   }
 
+   @Test
+   public void validateInvoiceModel() {
+      // setup
+      Invoice invoice = transformer.toModel(testFile);
 
-  @Test
-  public void validateInvoiceAgainstSchema() throws SAXException, IOException {
-    transformer.getZfSchemaValidator().validate(new StreamSource(testFile));
-    schemaValidationCounter++;
-  }
+      InvoiceValidator invoiceValidator = new InvoiceValidator();
+      // execute
 
+      Set<ConstraintViolation<Invoice>> validationResult = invoiceValidator.validate(invoice);
 
-  @Test
-  public void validateInvoiceModel() {
-    // setup
-    Invoice invoice = transformer.toModel(testFile);
+      // verify
+      for (ConstraintViolation<Invoice> violation : validationResult) {
+         String msg = violation.getPropertyPath() + " Message: " + violation.getMessage()
+               + " | Actual value: " + violation.getInvalidValue();
+         log.warn(msg);
+      }
+      assertThat(validationResult).isEmpty();
+      modelValidationCounter++;
+   }
 
-    InvoiceValidator invoiceValidator = new InvoiceValidator();
-    // execute
+   @Test
+   public void marshallBackInvoiceModelAndDiffXml() throws Exception {
+      // setup
+      String testFileContent = Files.toString(testFile, forName(UTF_8));
+      Invoice model = transformer.toModel(testFile);
 
-    Set<ConstraintViolation<Invoice>> validationResult = invoiceValidator.validate(invoice);
+      // execute
+      byte[] invoiceAsByteArray = transformer.fromModel(model);
 
-    // verify
-    for (ConstraintViolation<Invoice> violation : validationResult) {
-      String msg = violation.getPropertyPath() + " Message: " + violation.getMessage()
-          + " | Actual value: " + violation.getInvalidValue();
-      log.warn(msg);
-    }
-    assertThat(validationResult).isEmpty();
-    modelValidationCounter++;
-  }
-
-
-
-  @Test
-  public void marshallBackInvoiceModelAndDiffXml() throws Exception {
-    // setup
-    String testFileContent = Files.toString(testFile, forName(UTF_8));
-    Invoice model = transformer.toModel(testFile);
-
-
-    // execute
-    byte[] invoiceAsByteArray = transformer.fromModel(model);
-
-    // verify
-    String remarshalledInvoice = new String(invoiceAsByteArray, UTF_8);
-    Files.write(remarshalledInvoice.getBytes(), new File("./target/test_" + testFileName));
-    // System.out.println(remarshalledInvoice);
-    Diff diff = new Diff(testFileContent, remarshalledInvoice);
-    diff.overrideDifferenceListener(new NumberDifferenceXmlComparison());
-    XMLAssert.assertXMLEqual(diff, true);
-    marshallBackCounter++;
-  }
+      // verify
+      String remarshalledInvoice = new String(invoiceAsByteArray, UTF_8);
+      Files.write(remarshalledInvoice.getBytes(), new File("./target/test_" + testFileName));
+      // System.out.println(remarshalledInvoice);
+      Diff diff = new Diff(testFileContent, remarshalledInvoice);
+      diff.overrideDifferenceListener(new NumberDifferenceXmlComparison());
+      XMLAssert.assertXMLEqual(diff, true);
+      marshallBackCounter++;
+   }
 }
