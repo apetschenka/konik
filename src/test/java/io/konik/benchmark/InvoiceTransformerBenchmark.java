@@ -23,6 +23,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openjdk.jmh.annotations.Mode.Throughput;
 import static org.openjdk.jmh.annotations.Scope.Thread;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -40,7 +42,9 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.runner.RunnerException;
+
 import com.google.common.io.Files;
+
 import io.konik.InvoiceTransformer;
 import io.konik.PdfHandler;
 import io.konik.carriage.pdfbox.PDFBoxInvoiceAppender;
@@ -60,9 +64,9 @@ public class InvoiceTransformerBenchmark extends DefaultBenchmark {
    private final FileAppender appender = new PDFBoxInvoiceAppender();
    Invoice invoiceModel;
    File tempDir;
-   
+
    PdfHandler pdfHandler = new PdfHandler();
-   
+
    @Setup
    public void setup() throws IOException {
       InputStream is = getClass().getResourceAsStream(InvoiceLoaderUtils.ZF_MUSTERRECHNUNG_EINFACH_XML);
@@ -72,20 +76,22 @@ public class InvoiceTransformerBenchmark extends DefaultBenchmark {
       tempDir = Files.createTempDir();
    }
 
-//   @Benchmark
+   //   @Benchmark
    public void xmlToModel() throws Exception {
       transformer.toModel(new ByteArrayInputStream(invoice));
    }
-   
-//   @Benchmark
+
+   //   @Benchmark
    public void fromModelAsync() throws Exception {
-      transformer.fromModelAsync(invoiceModel,new FileOutputStream(new File(tempDir,System.currentTimeMillis()+".xml")));
+      transformer.fromModelAsync(invoiceModel,
+            new FileOutputStream(new File(tempDir, System.currentTimeMillis() + ".xml")));
    }
-   
-//   @Benchmark
+
+   //   @Benchmark
    @Threads(4)
    public void fromModelAsyncThreads() throws Exception {
-      transformer.fromModelAsync(invoiceModel,new FileOutputStream(new File(tempDir,System.currentTimeMillis()+".xml")));
+      transformer.fromModelAsync(invoiceModel,
+            new FileOutputStream(new File(tempDir, System.currentTimeMillis() + ".xml")));
    }
 
    @Benchmark
@@ -94,24 +100,22 @@ public class InvoiceTransformerBenchmark extends DefaultBenchmark {
       final PipedInputStream in = new PipedInputStream();
       final PipedOutputStream out = new PipedOutputStream(in);
       InputStream pdfIn = getClass().getResourceAsStream("/acme_invoice-42.pdf");
-      
-      transformer.fromModelAsync(invoiceModel,out);
+
+      transformer.fromModelAsync(invoiceModel, out);
       appender.append(new DefaultAppendParameter(pdfIn, in, new ByteArrayOutputStream(), "1.0", "TEST"));
    }
-   
+
    @Benchmark
    @Threads(8)
    public void fromModelToPDFAllinOne_8Threads() throws Exception {
       InputStream pdfIn = getClass().getResourceAsStream("/acme_invoice-42.pdf");
       pdfHandler.appendInvoice(invoiceModel, pdfIn, new ByteArrayOutputStream());
    }
-   
-   
+
    @Test
    @Ignore
    public void runInvoiceTransformerBenchmark() throws RunnerException {
       runDefault();
    }
-
 
 }

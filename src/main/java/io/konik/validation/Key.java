@@ -2,6 +2,7 @@
 package io.konik.validation;
 
 import java.math.BigDecimal;
+
 import io.konik.zugferd.entity.Tax;
 import io.konik.zugferd.unece.codes.TaxCategory;
 import io.konik.zugferd.unece.codes.TaxCode;
@@ -10,59 +11,59 @@ import io.konik.zugferd.unece.codes.TaxCode;
  * Helper key for {@link TaxAggregator}
  */
 final class Key {
-  private final BigDecimal percentage;
-  private final TaxCode code;
-  private final TaxCategory category;
+   private final BigDecimal percentage;
+   private final TaxCode code;
+   private final TaxCategory category;
 
-  private Key(final Tax tax) {
-    this.percentage = tax.getPercentage();
-    this.category = tax.getCategory();
-    this.code = tax.getType();
-  }
+   private Key(final Tax tax) {
+      this.percentage = tax.getPercentage();
+      this.category = tax.getCategory();
+      this.code = tax.getType();
+   }
 
-  public static Key create(final Tax tax) {
-    return new Key(tax);
-  }
+   public static Key create(final Tax tax) {
+      return new Key(tax);
+   }
 
-  public BigDecimal getPercentage() {
-    return percentage;
-  }
+   public BigDecimal getPercentage() {
+      return percentage;
+   }
 
-  public TaxCode getCode() {
-    return code;
-  }
+   public TaxCode getCode() {
+      return code;
+   }
 
-  public TaxCategory getCategory() {
-    return category;
-  }
+   public TaxCategory getCategory() {
+      return category;
+   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (!(o instanceof Key))
-      return false;
+   @Override
+   public boolean equals(Object o) {
+      if (this == o)
+         return true;
+      if (!(o instanceof Key))
+         return false;
 
-    Key key = (Key) o;
+      Key key = (Key) o;
 
-    if (!percentage.equals(key.percentage))
-      return false;
-    if (code != key.code)
-      return false;
-    return category == key.category;
+      if (!percentage.equals(key.percentage))
+         return false;
+      if (code != key.code)
+         return false;
+      return category == key.category;
 
-  }
+   }
 
-  @Override
-  public int hashCode() {
-    int result = percentage.hashCode();
-    result = 31 * result + (code != null ? code.hashCode() : 0);
-    result = 31 * result + (category != null ? category.hashCode() : 0);
-    return result;
-  }
+   @Override
+   public int hashCode() {
+      int result = percentage.hashCode();
+      result = 31 * result + (code != null ? code.hashCode() : 0);
+      result = 31 * result + (category != null ? category.hashCode() : 0);
+      return result;
+   }
 
-  @Override
-  public String toString() {
-    return "Key{" + "percentage=" + percentage + ", code=" + code + ", category=" + category + '}';
-  }
+   @Override
+   public String toString() {
+      return "Key{" + "percentage=" + percentage + ", code=" + code + ", category=" + category + '}';
+   }
 }

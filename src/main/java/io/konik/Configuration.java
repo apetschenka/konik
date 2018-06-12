@@ -18,6 +18,7 @@
 package io.konik;
 
 import static java.util.logging.Level.CONFIG;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map.Entry;
@@ -45,8 +46,8 @@ public enum Configuration {
       loadPropertiesFromFile();
       overwriteWithSystemProperties();
    }
-   
-   void reload(){
+
+   void reload() {
       loadPropertiesFromFile();
       overwriteWithSystemProperties();
    }

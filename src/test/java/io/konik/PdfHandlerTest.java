@@ -1,13 +1,16 @@
 package io.konik;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ServiceLoader;
+
 import org.apache.pdfbox.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+
 import io.konik.harness.FileExtractor;
 import io.konik.utils.RandomInvoiceGenerator;
 import io.konik.zugferd.Invoice;
@@ -32,18 +35,17 @@ public class PdfHandlerTest {
 
       assertThat(invoice).isNotNull();
       assertThat(invoice.getHeader().getInvoiceNumber()).isEqualTo("471102");
-      
+
    }
-   
-   
+
    @Test
    public void extractInvoice_lowLevel() throws Exception {
       InputStream is = getClass().getResourceAsStream("/Musterrechnung_Einfach_Basic.pdf");
 
       InputStream stream = fileExtractor.extractToStream(is);
-      
+
       assertThat(stream).isNotNull();
-      String invoice = new String(IOUtils.toByteArray(stream),"UTF-8");
+      String invoice = new String(IOUtils.toByteArray(stream), "UTF-8");
       assertThat(invoice).contains("471102");
       stream.close();
    }

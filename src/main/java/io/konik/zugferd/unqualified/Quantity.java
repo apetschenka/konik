@@ -17,8 +17,8 @@
  */
 package io.konik.zugferd.unqualified;
 
-import io.konik.jaxb.adapter.QuantityRoundingAdapter;
-import io.konik.zugferd.unece.codes.UnitOfMeasurement;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,8 +29,9 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.math.BigDecimal;
+
+import io.konik.jaxb.adapter.QuantityRoundingAdapter;
+import io.konik.zugferd.unece.codes.UnitOfMeasurement;
 
 /**
  * = The Quantity

@@ -5,19 +5,19 @@ import io.konik.zugferd.entity.trade.MonetarySummation;
 
 public class RecalculationResult {
 
-  private final MonetarySummation monetarySummation;
-  private final TaxAggregator taxAggregator;
+   private final MonetarySummation monetarySummation;
+   private final TaxAggregator taxAggregator;
 
-  public RecalculationResult(MonetarySummation monetarySummation, TaxAggregator taxAggregator) {
-    this.monetarySummation = monetarySummation;
-    this.taxAggregator = taxAggregator;
-  }
+   public RecalculationResult(MonetarySummation monetarySummation, TaxAggregator taxAggregator) {
+      this.monetarySummation = monetarySummation;
+      this.taxAggregator = taxAggregator;
+   }
 
-  public MonetarySummation getMonetarySummation() {
-    return monetarySummation;
-  }
+   public MonetarySummation getMonetarySummation() {
+      return monetarySummation;
+   }
 
-  public TaxAggregator getTaxAggregator() {
-    return taxAggregator;
-  }
+   public TaxAggregator getTaxAggregator() {
+      return taxAggregator;
+   }
 }

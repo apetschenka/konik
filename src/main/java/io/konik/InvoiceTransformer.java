@@ -19,6 +19,7 @@ package io.konik;
 
 import static java.util.logging.Level.WARNING;
 import static javax.xml.bind.JAXBContext.newInstance;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.logging.Logger;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.xml.XMLConstants;
@@ -38,7 +40,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+
 import org.xml.sax.SAXException;
+
 import io.konik.exception.TransformationException;
 import io.konik.zugferd.Invoice;
 
@@ -51,7 +55,7 @@ import io.konik.zugferd.Invoice;
 public class InvoiceTransformer {
 
    private static final Logger LOG = Logger.getLogger(InvoiceTransformer.class.getName());
-   
+
    private static final String MARSHALLING_ERROR = "Marshalling error";
 
    private static final String KONIK_CONTEXT = "io.konik.zugferd";
@@ -170,7 +174,7 @@ public class InvoiceTransformer {
     * @return the Schema Validator
     * @throws SAXException the SAX exception
     */
-   public Validator getZfSchemaValidator() throws SAXException {      
+   public Validator getZfSchemaValidator() throws SAXException {
       SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
       URL schemaInvoice = InvoiceTransformer.class.getResource("/zfSchema/ZUGFeRD_1p0.xsd");
       Schema invoiceSchema = sf.newSchema(schemaInvoice);

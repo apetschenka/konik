@@ -1,6 +1,7 @@
 package io.konik.zugferd.profile;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +11,6 @@ public class ProfileTest {
    public void setUp() throws Exception {
    }
 
-   
    @Test
    public void profile() {
       String fullName = new Profile(ConformanceLevel.BASIC).fullName();
