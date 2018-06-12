@@ -101,9 +101,7 @@ public class ZinvoiceHttpClient {
    public InputStream download(String endpoint) {
       try {
          HttpRequest request = httpRequestFactory.buildGetRequest(createEndpoint(endpoint));
-         request.setHeaders(new HttpHeaders()
-               .set("API-KEY", apiConfig.getApiKey())
-               .setAccept("application/json"));
+         request.setHeaders(new HttpHeaders().set("API-KEY", apiConfig.getApiKey()).setAccept("application/json"));
          return request.execute().getContent();
       } catch (IOException e) {
          throw new RuntimeException(e);
@@ -121,8 +119,7 @@ public class ZinvoiceHttpClient {
    public <T> T upload(String endpoint, Map<String, InputStream> files, Class<T> responseTypeClass) {
       try {
          MultipartContent content = new MultipartContent();
-         content.setMediaType(new HttpMediaType("multipart/form-data")
-               .setParameter("boundary", "__END_OF_PART__"));
+         content.setMediaType(new HttpMediaType("multipart/form-data").setParameter("boundary", "__END_OF_PART__"));
 
          Detector detector = new DefaultDetector();
 
@@ -136,9 +133,7 @@ public class ZinvoiceHttpClient {
          }
 
          HttpRequest request = httpRequestFactory.buildPostRequest(createEndpoint(endpoint), content);
-         request.setHeaders(new HttpHeaders()
-               .set("API-KEY", apiConfig.getApiKey())
-               .setAccept("application/json"));
+         request.setHeaders(new HttpHeaders().set("API-KEY", apiConfig.getApiKey()).setAccept("application/json"));
          HttpResponse response = request.execute();
 
          return objectMapper.readValue(response.parseAsString(), responseTypeClass);

@@ -85,11 +85,7 @@ public class ComfortInvoice {
    private Invoice createAllElementInvoiceModel() {
 
       Invoice invoice = new Invoice(COMFORT); // <1>
-      invoice.setHeader(new Header()
-            .setInvoiceNumber("20131122-42")
-            .setCode(_380)
-            .setIssued(today)
-            .setName("Rechnung")
+      invoice.setHeader(new Header().setInvoiceNumber("20131122-42").setCode(_380).setIssued(today).setName("Rechnung")
             .setContractualDueDate(inSixWeeks));
 
       Trade trade = new Trade();

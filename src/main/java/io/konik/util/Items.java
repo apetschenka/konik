@@ -38,10 +38,8 @@ public final class Items {
       return filter(items, new Predicate<Item>() {
          @Override
          public boolean apply(@Nullable Item item) {
-            return item != null &&
-                  item.getDelivery() != null &&
-                  item.getAgreement() != null &&
-                  item.getSettlement() != null;
+            return item != null && item.getDelivery() != null && item.getAgreement() != null
+                  && item.getSettlement() != null;
          }
       });
    }

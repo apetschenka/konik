@@ -22,13 +22,9 @@ public class AmountsNegationTest {
 
    @Parameters(name = "Case {index}: negation of {0} USD is {1} USD")
    public static Collection<Object[]> data() {
-      return Arrays.asList(new Object[][] {
-            { BigDecimal.ZERO, BigDecimal.ZERO },
-            { valueOf(10), valueOf(-10) },
-            { valueOf(1), valueOf(-1) },
-            { valueOf(-0.002), valueOf(0.002) },
-            { valueOf(-421.233), valueOf(421.233) }
-      });
+      return Arrays.asList(new Object[][] { { BigDecimal.ZERO, BigDecimal.ZERO }, { valueOf(10), valueOf(-10) },
+            { valueOf(1), valueOf(-1) }, { valueOf(-0.002), valueOf(0.002) },
+            { valueOf(-421.233), valueOf(421.233) } });
    }
 
    @Parameter

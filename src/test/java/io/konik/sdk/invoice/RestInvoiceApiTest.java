@@ -174,10 +174,8 @@ public class RestInvoiceApiTest {
       ZinvoiceApiConfig apiConfig = new ZinvoiceApiConfig(UUID.randomUUID().toString(), "http://localhost:8080");
       ObjectMapper objectMapper = new ObjectMapper();
       MockHttpTransport httpTransport = new MockHttpTransport.Builder()
-            .setLowLevelHttpRequest(
-                  new MockLowLevelHttpRequest("/invoice/123/status")
-                        .setResponse(new MockLowLevelHttpResponse()
-                              .setContent("{\"invoiceId\": \"123\", \"status\": \"BOOKED\"}")))
+            .setLowLevelHttpRequest(new MockLowLevelHttpRequest("/invoice/123/status").setResponse(
+                  new MockLowLevelHttpResponse().setContent("{\"invoiceId\": \"123\", \"status\": \"BOOKED\"}")))
             .build();
       HttpRequestFactory requestFactory = httpTransport.createRequestFactory();
       ZinvoiceHttpClient httpClient = new ZinvoiceHttpClient(apiConfig, requestFactory, objectMapper);

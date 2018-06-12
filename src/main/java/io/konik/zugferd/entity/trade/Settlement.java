@@ -45,9 +45,8 @@ import io.konik.zugferd.entity.TradeParty;
  * 
  * Contains trade specific payment and price related informations
  */
-@XmlType(propOrder = { "paymentReference", "currency", "invoicee", "payee", "paymentMeans", "tradeTax",
-      "billingPeriod", "allowanceCharge", "serviceCharge", "paymentTerms", "monetarySummation",
-      "costCenter" })
+@XmlType(propOrder = { "paymentReference", "currency", "invoicee", "payee", "paymentMeans", "tradeTax", "billingPeriod",
+      "allowanceCharge", "serviceCharge", "paymentTerms", "monetarySummation", "costCenter" })
 public class Settlement implements CommonSettlement<TradeTax, MonetarySummation> {
 
    @XmlElement(name = "PaymentReference")

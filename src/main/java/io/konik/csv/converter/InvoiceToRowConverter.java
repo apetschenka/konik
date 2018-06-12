@@ -96,8 +96,7 @@ final public class InvoiceToRowConverter {
 
                      SpecifiedDelivery delivery = item.getDelivery();
                      if (delivery != null && delivery.getBilled() != null) {
-                        rowItem.setQuantity(delivery.getBilled().getValue())
-                              .setUnit(delivery.getBilled().getUnit());
+                        rowItem.setQuantity(delivery.getBilled().getValue()).setUnit(delivery.getBilled().getUnit());
                      }
 
                      SpecifiedAgreement agreement = item.getAgreement();
@@ -130,17 +129,14 @@ final public class InvoiceToRowConverter {
 
          Address address = tradeParty.getAddress();
          if (Objects.nonNull(address)) {
-            rowTradeParty.setAddressLine1(address.getLineOne())
-                  .setAddressLine2(address.getLineTwo())
-                  .setCity(address.getCity())
-                  .setCountryCode(address.getCountry())
-                  .setPostcode(address.getPostcode());
+
+            rowTradeParty.setAddressLine1(address.getLineOne()).setAddressLine2(address.getLineTwo())
+                  .setCity(address.getCity()).setCountryCode(address.getCountry()).setPostcode(address.getPostcode());
          }
 
          Contact contact = tradeParty.getContact();
          if (Objects.nonNull(contact)) {
-            rowTradeParty.setContactName(contact.getName())
-                  .setEmail(contact.getEmail());
+            rowTradeParty.setContactName(contact.getName()).setEmail(contact.getEmail());
          }
 
          List<TaxRegistration> taxRegistrations = tradeParty.getTaxRegistrations();
@@ -151,8 +147,7 @@ final public class InvoiceToRowConverter {
                public Row.Tax apply(TaxRegistration taxRegistration) {
                   Row.Tax tax = new Row.Tax();
                   if (Objects.nonNull(taxRegistration)) {
-                     tax.setNumber(taxRegistration.getTaxNumber())
-                           .setType(taxRegistration.getType());
+                     tax.setNumber(taxRegistration.getTaxNumber()).setType(taxRegistration.getType());
                   }
                   return tax;
                }
@@ -202,14 +197,9 @@ final public class InvoiceToRowConverter {
             Date dueDate = header.getContractualDueDate() != null ? new Date(header.getContractualDueDate().getTime())
                   : null;
 
-            return new Row.Header().setInvoiceNumber(header.getInvoiceNumber())
-                  .setType(header.getName())
-                  .setCurrency(currencyCode)
-                  .setReference(paymentReference)
-                  .setCustomerNumber(customerNumber)
-                  .setIssued(issued)
-                  .setDueDate(dueDate)
-                  .setNote(noteText);
+            return new Row.Header().setInvoiceNumber(header.getInvoiceNumber()).setType(header.getName())
+                  .setCurrency(currencyCode).setReference(paymentReference).setCustomerNumber(customerNumber)
+                  .setIssued(issued).setDueDate(dueDate).setNote(noteText);
          }
 
          return new Row.Header();

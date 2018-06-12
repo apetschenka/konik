@@ -37,7 +37,6 @@ public class AmountsZeroFunctionTest {
 
    @Test
    public void test() {
-      assertThat(Amounts.zero(currencyCode))
-            .isEqualToComparingFieldByField(new Amount(BigDecimal.ZERO, currencyCode));
+      assertThat(Amounts.zero(currencyCode)).isEqualToComparingFieldByField(new Amount(BigDecimal.ZERO, currencyCode));
    }
 }

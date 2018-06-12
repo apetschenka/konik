@@ -27,8 +27,7 @@ public class ItemTaxTotalCalculatorTest {
 
    @Parameters(name = "Calculating tax amount for case {index}: {0} * {1}% = {2}")
    public static Collection<Object[]> data() {
-      return Arrays.asList(new Object[][] {
-            { BigDecimal.valueOf(100), BigDecimal.valueOf(23), BigDecimal.valueOf(23) },
+      return Arrays.asList(new Object[][] { { BigDecimal.valueOf(100), BigDecimal.valueOf(23), BigDecimal.valueOf(23) },
             { BigDecimal.valueOf(99), BigDecimal.ZERO, BigDecimal.ZERO },
             { BigDecimal.valueOf(43.12), BigDecimal.valueOf(8), BigDecimal.valueOf(3.45) }
       });

@@ -100,8 +100,7 @@ public class MinimalInvoiceWithCalculation {
       Trade trade = new Trade();
       trade.setAgreement(new Agreement()
             .setSeller(new TradeParty()
-                  .setName("Seller Inc.")
-                  .setAddress(new Address("80331", "Marienplatz 1", "München", DE))
+                  .setName("Seller Inc.").setAddress(new Address("80331", "Marienplatz 1", "München", DE))
                   .addTaxRegistrations(new TaxRegistration("DE122...", FC)))
             .setBuyer(new TradeParty()
                   .setName("Buyer Inc.")
@@ -127,30 +126,11 @@ public class MinimalInvoiceWithCalculation {
             .addPaymentMeans(new PaymentMeans()
                   .setPayerAccount(new DebtorFinancialAccount("DE01234.."))
                   .setPayerInstitution(new FinancialInstitution("GENO..."))));
-      /*.setMonetarySummation(new MonetarySummation() // <3>
-         .setLineTotal(new Amount(100, EUR))
-         .setChargeTotal(new Amount(0,EUR))
-         .setAllowanceTotal(new Amount(0, EUR))
-         .setTaxBasisTotal(new Amount(100, EUR))
-         .setTaxTotal(new Amount(19, EUR))               
-         .setDuePayable(new Amount(119, EUR))
-         .setTotalPrepaid(new Amount(0, EUR))
-         .setGrandTotal(new Amount(119, EUR))));*/
 
       invoice.setTrade(trade);
       Invoice completedInvoice = new InvoiceCalculator(invoice).complete(); // <4>
 
       log.info(completedInvoice.getTrade().getSettlement().getMonetarySummation().toString());// <5>
-      /* MonetarySummation [  
-       * lineTotal=100.00 EUR, 
-       * chargeTotal=0.00 EUR, 
-       * allowanceTotal=0.00 EUR, 
-       * taxBasisTotal=100.00 EUR, 
-       * taxTotal=19.00 EUR, 
-       * grandTotal=119.00 EUR, 
-       * totalPrepaid=0.00 EUR, 
-       * duePayable=119.00 EUR]
-       */
 
       return completedInvoice;
    }

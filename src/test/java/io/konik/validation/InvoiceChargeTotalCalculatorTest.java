@@ -25,8 +25,7 @@ public class InvoiceChargeTotalCalculatorTest {
 
    @Parameters(name = "Calculating charge total for case {index}: expected {0}")
    public static Collection<Object[]> data() {
-      return Arrays.asList(new Object[][] {
-            { BigDecimal.ZERO, new SpecifiedAllowanceCharge[] {} },
+      return Arrays.asList(new Object[][] { { BigDecimal.ZERO, new SpecifiedAllowanceCharge[] {} },
             { BigDecimal.valueOf(2.23), new SpecifiedAllowanceCharge[] { chargeActual(BigDecimal.valueOf(2.23)) } },
             { BigDecimal.valueOf(14.54),
                   new SpecifiedAllowanceCharge[] { chargeActual(BigDecimal.valueOf(10.43)),

@@ -231,8 +231,6 @@ public class MonetarySummationValidator {
                      }
 
                      else if (!lineTotal.contains(".") || lineTotal.split("\\.")[1].length() != 2) {
-                        String message = message(monetarySummation.getLineTotal(),
-                              calculatedMonetarySummation.getLineTotal());
                         violations.add(new Violation(invoice, "lineTotal needs 2 decimals",
                               "item.monetarySummation.lineTotal.error",
                               "trade.items[" + i + "].settlement.monetarySummation.lineTotal",
@@ -263,8 +261,6 @@ public class MonetarySummationValidator {
 
                      else if (!totalAllowanceCharge.contains(".")
                            || totalAllowanceCharge.split("\\.")[1].length() != 4) {
-                        String message = message(monetarySummation.getTotalAllowanceCharge(),
-                              calculatedMonetarySummation.getTotalAllowanceCharge());
                         violations.add(new Violation(invoice, "totalAllowanceCharge needs 4 decimals",
                               "item.monetarySummation.totalAllowanceCharge.error",
                               "trade.items[" + i + "].settlement.monetarySummation.totalAllowanceCharge",
@@ -332,10 +328,8 @@ public class MonetarySummationValidator {
       }
 
       if (first.getValue() != null && second.getValue() != null) {
-         return first.getValue()
-               .setScale(2, RoundingMode.HALF_UP)
-               .equals(second.getValue()
-                     .setScale(2, RoundingMode.HALF_UP));
+         return first.getValue().setScale(2, RoundingMode.HALF_UP)
+               .equals(second.getValue().setScale(2, RoundingMode.HALF_UP));
       }
 
       return false;

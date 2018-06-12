@@ -101,24 +101,17 @@ public class AllElementsInvoiceTest {
    private Invoice createAllElementInvoiceModel() {
 
       Invoice invoice = new Invoice(EXTENDED); // <1>
-      invoice.setHeader(new Header()
-            .setInvoiceNumber("20131122-42")
-            .setCode(_380)
-            .setIssued(today)
-            .setName("Rechnung")
-            .setContractualDueDate(inSixWeeks)
-            .addNote(new Note("Mandatory Invoice Note")));
+      invoice.setHeader(new Header().setInvoiceNumber("20131122-42").setCode(_380).setIssued(today).setName("Rechnung")
+            .setContractualDueDate(inSixWeeks).addNote(new Note("Mandatory Invoice Note")));
 
       Trade trade = new Trade();
       trade.setAgreement(new Agreement() // <2>
-            .setSeller(new TradeParty()
-                  .setName("Seller Inc.")
+            .setSeller(new TradeParty().setName("Seller Inc.")
                   .setAddress(new Address("80331", "Marienplatz 1", "München", DE))
                   .addTaxRegistrations(new TaxRegistration("DE122...", FC)))
-            .setBuyer(new TradeParty()
-                  .setName("Buyer Inc.")
-                  .setAddress(new Address("50667", "Domkloster 4", "Köln", DE))
-                  .addTaxRegistrations(new TaxRegistration("DE123...", FC)))
+            .setBuyer(
+                  new TradeParty().setName("Buyer Inc.").setAddress(new Address("50667", "Domkloster 4", "Köln", DE))
+                        .addTaxRegistrations(new TaxRegistration("DE123...", FC)))
             .setDeliveryTerms("Delivery Terms"));
 
       trade.setDelivery(new Delivery(nextMonth));

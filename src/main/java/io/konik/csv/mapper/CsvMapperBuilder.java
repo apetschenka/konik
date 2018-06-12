@@ -71,13 +71,10 @@ public class CsvMapperBuilder {
          @Override
          protected void configure() {
             TypeMappingBuilder readerBuilder = mapping(CsvDozerBeanData.class, destinationObjectClass,
-                  TypeMappingOptions.oneWay(),
-                  TypeMappingOptions.wildcard(false),
-                  TypeMappingOptions.mapNull(false));
+                  TypeMappingOptions.oneWay(), TypeMappingOptions.wildcard(false), TypeMappingOptions.mapNull(false));
 
             TypeMappingBuilder writerBuilder = mapping(destinationObjectClass,
-                  type(CsvDozerBeanData.class).mapNull(true),
-                  TypeMappingOptions.oneWay(),
+                  type(CsvDozerBeanData.class).mapNull(true), TypeMappingOptions.oneWay(),
                   TypeMappingOptions.wildcard(false));
 
             for (int i = 0; i < columns.size(); i++) {
@@ -177,9 +174,7 @@ public class CsvMapperBuilder {
    public CsvDozerBeanReader getBeanReader(File csvFile, Class<?> beanType) {
       try {
          CsvDozerBeanReader reader = new CsvDozerBeanReader(
-               new InputStreamReader(new FileInputStream(csvFile), "UTF-8"),
-               csvPreference,
-               buildBeanMapper(beanType));
+               new InputStreamReader(new FileInputStream(csvFile), "UTF-8"), csvPreference, buildBeanMapper(beanType));
          reader.getHeader(true);
          return reader;
 
@@ -209,13 +204,8 @@ public class CsvMapperBuilder {
 
       @Override
       public String toString() {
-         return "Column{" +
-               "name='" + name + '\'' +
-               ", type=" + type +
-               ", processor=" + processor +
-               ", mappingOptions=" + Arrays.toString(mappingOptions) +
-               ", fieldDefinition=" + fieldDefinition +
-               '}';
+         return "Column{" + "name='" + name + '\'' + ", type=" + type + ", processor=" + processor + ", mappingOptions="
+               + Arrays.toString(mappingOptions) + ", fieldDefinition=" + fieldDefinition + '}';
       }
 
       public static class Builder {

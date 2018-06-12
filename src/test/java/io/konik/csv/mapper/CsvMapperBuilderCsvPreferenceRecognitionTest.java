@@ -20,10 +20,7 @@ public class CsvMapperBuilderCsvPreferenceRecognitionTest {
 
    @Parameters(name = "{0}")
    public static Iterable<Object[]> getParams() throws ParseException {
-      return Arrays.asList(
-            new Object[] { "fail01.csv" },
-            new Object[] { "fail02.csv" },
-            new Object[] { "fail03.csv" },
+      return Arrays.asList(new Object[] { "fail01.csv" }, new Object[] { "fail02.csv" }, new Object[] { "fail03.csv" },
             new Object[] { "fail04.csv" });
    }
 

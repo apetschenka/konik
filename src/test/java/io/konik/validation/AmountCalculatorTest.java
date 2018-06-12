@@ -25,8 +25,7 @@ public class AmountCalculatorTest {
       MonetarySummation summation = AmountCalculator.recalculate(invoice).getMonetarySummation();
 
       //then:
-      assertThat(summation.getTaxTotal())
-            .isEqualToComparingFieldByField(invoiceMonetarySummation.getTaxTotal());
+      assertThat(summation.getTaxTotal()).isEqualToComparingFieldByField(invoiceMonetarySummation.getTaxTotal());
 
       assertThat(summation.getLineTotal())
             .isEqualToComparingFieldByField(invoiceMonetarySummation.getLineTotal());

@@ -133,8 +133,7 @@ public class EntwicklerTageDemo {
       tax.setPercentage(BigDecimal.valueOf(15));
       tax.setType(TaxCode.VAT);
 
-      trade.addItem(new Item()
-            .setProduct(new Product().setName("Saddle"))
+      trade.addItem(new Item().setProduct(new Product().setName("Saddle"))
             .setAgreement(new SpecifiedAgreement().setGrossPrice(new GrossPrice(new Amount(498, EUR)))
                   .setNetPrice(new Price(new Amount(498, EUR))))
             .setSettlement(new SpecifiedSettlement().addTradeTax(tax))

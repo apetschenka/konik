@@ -23,8 +23,7 @@ public class AmountsAddingParameterizedTest {
 
    @Parameters(name = "Case {index}: {0} + {1} = {2}")
    public static Collection<Object[]> data() {
-      return Arrays.asList(new Object[][] {
-            { BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO },
+      return Arrays.asList(new Object[][] { { BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO },
             { BigDecimal.ONE, BigDecimal.ZERO, BigDecimal.ONE },
             { BigDecimal.ONE, BigDecimal.ONE, BigDecimal.valueOf(2) },
             { BigDecimal.valueOf(10), BigDecimal.valueOf(-100), BigDecimal.valueOf(-90) },

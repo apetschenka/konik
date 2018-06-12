@@ -24,7 +24,6 @@ public class InvoicesTest {
       Invoice clone = Invoices.clone(invoice);
 
       //then:
-      assertThat(transformer.fromModel(invoice))
-            .isEqualTo(transformer.fromModel(clone));
+      assertThat(transformer.fromModel(invoice)).isEqualTo(transformer.fromModel(clone));
    }
 }

@@ -26,8 +26,7 @@ public class CsvMapperBuilderCsvPreferenceRecognitionFailTest {
 
    @Parameters(name = "{0}")
    public static Iterable<Object[]> getParams() throws ParseException {
-      return Arrays.asList(
-            new Object[] { "standard_preference_01.csv", CsvPreference.STANDARD_PREFERENCE },
+      return Arrays.asList(new Object[] { "standard_preference_01.csv", CsvPreference.STANDARD_PREFERENCE },
             new Object[] { "standard_preference_02.csv", CsvPreference.STANDARD_PREFERENCE },
             new Object[] { "standard_preference_03.csv", CsvPreference.STANDARD_PREFERENCE },
             new Object[] { "excel_north_eu_01.csv", CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE },

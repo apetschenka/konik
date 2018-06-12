@@ -31,8 +31,7 @@ public class ItemTotalAllowanceChargeCalculatorTest {
 
    @Parameters(name = "Calculating expected total allowance charge = {0} USD")
    public static Collection<Object[]> data() {
-      return Arrays.asList(new Object[][] {
-            { BigDecimal.ZERO, new AllowanceCharge[] {} },
+      return Arrays.asList(new Object[][] { { BigDecimal.ZERO, new AllowanceCharge[] {} },
             { valueOf(1), new AllowanceCharge[] { charge(valueOf(1)) } },
             { valueOf(5.23),
                   new AllowanceCharge[] { charge(valueOf(0.23)), charge(valueOf(2.00)), charge(valueOf(1.5)),

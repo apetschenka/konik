@@ -35,8 +35,8 @@ import io.konik.zugferd.unqualified.ZfDate;
  * = The trade delivery information.
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = { "relatedConsignment", "shipTo", "ultimateShipTo", "shipFrom", "actualDelivery",
-      "despatchAdvice", "deliveryNote" })
+@XmlType(propOrder = { "relatedConsignment", "shipTo", "ultimateShipTo", "shipFrom", "actualDelivery", "despatchAdvice",
+      "deliveryNote" })
 public class Delivery extends CommonDelivery<ReferencedDocument> {
 
    @XmlElement(name = "RelatedSupplyChainConsignment")

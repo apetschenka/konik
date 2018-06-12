@@ -46,8 +46,8 @@ import io.konik.zugferd.unqualified.ZfDate;
  * = The Invoice Document Header
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HeaderExchangedDocument", propOrder = { "invoiceNumber", "name", "code", "issued", "copy",
-      "languages", "notes", "contractualDueDate" })
+@XmlType(name = "HeaderExchangedDocument", propOrder = { "invoiceNumber", "name", "code", "issued", "copy", "languages",
+      "notes", "contractualDueDate" })
 public class Header implements Serializable {
 
    @XmlElement(name = "ID")

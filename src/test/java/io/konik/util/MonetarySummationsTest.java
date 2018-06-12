@@ -22,8 +22,7 @@ public class MonetarySummationsTest {
       //when:
       MonetarySummation summation = MonetarySummations.newMonetarySummation(CURRENCY_CODE);
       //then:
-      assertThat(summation.getAllowanceTotal())
-            .isEqualToComparingFieldByField(ZERO_AMOUNT);
+      assertThat(summation.getAllowanceTotal()).isEqualToComparingFieldByField(ZERO_AMOUNT);
    }
 
    @Test
