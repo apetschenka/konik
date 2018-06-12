@@ -36,7 +36,7 @@ public class ZugferdSpecificExamplesTest {
    @Parameterized.Parameters(name = "Invoice {0} has {1} error(s)")
    public static Collection<Object[]> getData() {
       return Arrays.asList(new Object[][] { { "ZUGFeRD_1p0_COMFORT_Einfach_Original.xml", 0 },
-            { "ZUGFeRD_1p0_EXTENDED_Warenrechnung.xml", 2 }, { "large_zugferd_invoice.xml", 5 },
+            { "ZUGFeRD_1p0_EXTENDED_Warenrechnung.xml", 4 }, { "large_zugferd_invoice.xml", 5 },
             { "duePayable.xml", 0 }, { "productName.xml", 1 }, { "totalAllowanceCharge.xml", 5 },
             { "totalAllowanceCharge2.xml", 0 }, { "totalAllowanceChargeWithDiscountAndSurcharge.xml", 0 },
             { "totalAllowanceChargeWithDiscountAndSurchargeWithMissingTotalAllowanceCharge.xml", 1 }, });

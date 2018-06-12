@@ -27,8 +27,7 @@ public class AmountCalculatorTest {
       //then:
       assertThat(summation.getTaxTotal()).isEqualToComparingFieldByField(invoiceMonetarySummation.getTaxTotal());
 
-      assertThat(summation.getLineTotal())
-            .isEqualToComparingFieldByField(invoiceMonetarySummation.getLineTotal());
+      assertThat(summation.getLineTotal()).isEqualToComparingFieldByField(invoiceMonetarySummation.getLineTotal());
 
       assertThat(summation.getTotalPrepaid())
             .isEqualToComparingFieldByField(invoiceMonetarySummation.getTotalPrepaid());
@@ -39,14 +38,11 @@ public class AmountCalculatorTest {
       assertThat(summation.getAllowanceTotal())
             .isEqualToComparingFieldByField(invoiceMonetarySummation.getAllowanceTotal());
 
-      assertThat(summation.getChargeTotal())
-            .isEqualToComparingFieldByField(invoiceMonetarySummation.getChargeTotal());
+      assertThat(summation.getChargeTotal()).isEqualToComparingFieldByField(invoiceMonetarySummation.getChargeTotal());
 
-      assertThat(summation.getDuePayable())
-            .isEqualToComparingFieldByField(invoiceMonetarySummation.getDuePayable());
+      assertThat(summation.getDuePayable()).isEqualToComparingFieldByField(invoiceMonetarySummation.getDuePayable());
 
-      assertThat(summation.getGrandTotal())
-            .isEqualToComparingFieldByField(invoiceMonetarySummation.getGrandTotal());
+      assertThat(summation.getGrandTotal()).isEqualToComparingFieldByField(invoiceMonetarySummation.getGrandTotal());
    }
 
 }

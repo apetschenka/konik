@@ -164,11 +164,11 @@
                 <ram:LineTotalAmount currencyID="EUR">202.70</ram:LineTotalAmount>
                 <ram:ChargeTotalAmount currencyID="EUR">5.80</ram:ChargeTotalAmount>
                 <ram:AllowanceTotalAmount currencyID="EUR">14.73</ram:AllowanceTotalAmount>
-                <ram:TaxBasisTotalAmount currencyID="EUR">193.77</ram:TaxBasisTotalAmount>
+                <ram:TaxBasisTotalAmount currencyID="EUR">202.70</ram:TaxBasisTotalAmount>
                 <ram:TaxTotalAmount currencyID="EUR">21.30</ram:TaxTotalAmount>
-                <ram:GrandTotalAmount currencyID="EUR">215.07</ram:GrandTotalAmount>
+                <ram:GrandTotalAmount currencyID="EUR">224.00</ram:GrandTotalAmount>
                 <ram:TotalPrepaidAmount currencyID="EUR">50.00</ram:TotalPrepaidAmount>
-                <ram:DuePayableAmount currencyID="EUR">165.07</ram:DuePayableAmount>
+                <ram:DuePayableAmount currencyID="EUR">174.00</ram:DuePayableAmount>
             </ram:SpecifiedTradeSettlementMonetarySummation>
         </ram:ApplicableSupplyChainTradeSettlement>
         <ram:IncludedSupplyChainTradeLineItem>

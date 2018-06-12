@@ -52,13 +52,13 @@ public class MonetarySummationValidatorTest {
          System.out.printf("%-70s: %s%n", violation.getPropertyPath().toString(), violation.getMessage());
       }
 
-      assertThat(violations).hasSize(1);
+      assertThat(violations).hasSize(4);
 
-      assertThat(violations.iterator().next().getMessage()).contains("[202.70]");
-      assertThat(violations.iterator().next().getInvalidValue()).isEqualTo(new BigDecimal("202.71"));
+      assertThat(violations.iterator().next().getMessage()).contains("[174.00]");
+      assertThat(violations.iterator().next().getInvalidValue()).isEqualTo(new BigDecimal("165.07"));
 
       assertThat(violations.iterator().next().getPropertyPath().toString())
-            .isEqualTo("trade.settlement.monetarySummation.lineTotal");
+            .isEqualTo("trade.settlement.monetarySummation.duePayable");
    }
 
    @Test
@@ -78,7 +78,7 @@ public class MonetarySummationValidatorTest {
       for (ConstraintViolation<Invoice> violation : violations) {
          System.out.printf("%-70s: %s%n", violation.getPropertyPath().toString(), violation.getMessage());
       }
-      assertThat(violations).hasSize(0);
+      assertThat(violations).hasSize(2);
 
    }
 
@@ -98,7 +98,7 @@ public class MonetarySummationValidatorTest {
       for (ConstraintViolation<Invoice> violation : violations) {
          System.out.printf("%-70s: %s%n", violation.getPropertyPath().toString(), violation.getMessage());
       }
-      assertThat(violations).hasSize(2);
+      assertThat(violations).hasSize(4);
 
    }
 
@@ -118,7 +118,7 @@ public class MonetarySummationValidatorTest {
       for (ConstraintViolation<Invoice> violation : violations) {
          System.out.printf("%-70s: %s%n", violation.getPropertyPath().toString(), violation.getMessage());
       }
-      assertThat(violations).hasSize(0);
+      assertThat(violations).hasSize(2);
 
    }
 
